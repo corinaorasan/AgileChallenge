@@ -17,13 +17,14 @@ namespace AgileCoffeeShop
             }
             set
             {
-                if(value >-180 || value < 180)
+                if(value >=-180 && value <= 180)
                 {
                     _xCoordinate = value;
                 }
                 else
                 {
                     Console.WriteLine("Invalid value for x coordinate. Program will exit.\nPress any key to continue...");
+                    Console.ReadKey();
                     Environment.Exit(-1);
                 }
             }
@@ -37,13 +38,14 @@ namespace AgileCoffeeShop
             }
             set
             {
-                if (value > 90 || value < 90)
+                if (value >= -90 && value <= 90)
                 {
                     _yCoordinate = value;
                 }
                 else
                 {
                     Console.WriteLine("Invalid value for y coordinate. Program will exit.\n Press any key to continue...");
+                    Console.ReadKey();
                     Environment.Exit(-1);
                 } 
             }

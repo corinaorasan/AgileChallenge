@@ -7,6 +7,7 @@ namespace AgileCoffeeShop
         #region Members
         private double _xCoordinate;
         private double _yCoordinate;
+        #endregion
 
         public double XCoordinate
         {
@@ -46,8 +47,7 @@ namespace AgileCoffeeShop
                     Environment.Exit(-1);
                 } 
             }
-        }
-        #endregion
+        }    
 
         public Coordinate ()
         {

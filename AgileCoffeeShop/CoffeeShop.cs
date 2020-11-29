@@ -4,7 +4,6 @@
     {
         #region Members
         public string Name { get; set; }
-        //private string city;
         public Coordinate Coordinate { get; set; }
         #endregion
 

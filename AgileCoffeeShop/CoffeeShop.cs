@@ -10,8 +10,8 @@
         public CoffeeShop ()
         {
             Name = string.Empty;
-            Coordinate.XCoordinate = 0;
-            Coordinate.YCoordinate = 0;
+            Coordinate = new Coordinate();
+            
         }
     }
 }

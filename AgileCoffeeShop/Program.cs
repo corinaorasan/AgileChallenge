@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 
 namespace AgileCoffeeShop
@@ -11,6 +12,7 @@ namespace AgileCoffeeShop
         private static User user;
         private static string urlFilePath;
         private static List<CoffeeShop> coffeeShops;
+        private static Dictionary<string, double> distancesDictionary;
         #endregion
 
         private static void ReadDataFromUrlFile(string urlFilePath)
@@ -78,6 +80,33 @@ namespace AgileCoffeeShop
             user = new User();
             urlFilePath = string.Empty;
             coffeeShops = new List<CoffeeShop>();
+            distancesDictionary = new Dictionary<string, double>();
+        }
+
+        private static void CalculateDistances()
+        {
+            foreach (CoffeeShop coffeeShop in coffeeShops)
+            {
+                double distance = 0;
+                distance = Math.Round(Math.Sqrt(Math.Pow((user.Coordinate.XCoordinate - coffeeShop.Coordinate.XCoordinate), 2) + Math.Pow((user.Coordinate.YCoordinate - coffeeShop.Coordinate.YCoordinate), 2)), 4);
+                distancesDictionary.Add(coffeeShop.Name, distance);                
+            }
+            distancesDictionary = distancesDictionary.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+        }
+
+        private static void DisplayTheClosestCoffeeShops()
+        {
+            int counter = 0;
+
+            foreach (KeyValuePair<string, double> kvp in distancesDictionary)
+            {
+                if (counter < 3)
+                {
+                    Console.WriteLine(kvp.Key + "," + kvp.Value);                 
+                    counter++;
+                }
+            }
+            Console.ReadKey();
         }
 
         static void Main(string[] args)
@@ -90,6 +119,8 @@ namespace AgileCoffeeShop
             ValidateUrl(args[2]);
             urlFilePath = args[2];
             ReadDataFromUrlFile(urlFilePath);
+            CalculateDistances();
+            DisplayTheClosestCoffeeShops();
         }
     }
 }

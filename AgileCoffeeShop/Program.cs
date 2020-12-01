@@ -14,7 +14,7 @@ namespace AgileCoffeeShop
         private static List<CoffeeShop> coffeeShops;
         private static Dictionary<string, double> distancesDictionary;
         #endregion
-
+  
         private static void ReadDataFromUrlFile(string urlFilePath)
         {
             WebClient client = new WebClient();
@@ -40,11 +40,10 @@ namespace AgileCoffeeShop
             {
                 Console.WriteLine("Invalid URL." + exception.Message + "Program will exit.\n Press any key to continue...");
                 Console.ReadKey();
-                Environment.Exit(-1);
             }
         }
 
-        private static void ValidateCoordinate (string coordinate)
+        public static void ValidateCoordinate (string coordinate)
         {
             double temp = 0;
             try
@@ -55,7 +54,6 @@ namespace AgileCoffeeShop
             {
                 Console.WriteLine("Invalid coordinates." + exception.Message + "Program will exit.\nPress any key to continue...");
                 Console.ReadKey();
-                Environment.Exit(-1);
             }
         }
         private static void ValidateUrl(string url) 
@@ -72,7 +70,6 @@ namespace AgileCoffeeShop
             {
                 Console.WriteLine("Invalid URL. Program will exit.\n Press any key to continue...");
                 Console.ReadKey();
-                Environment.Exit(-1);
             }
         }
         private static void Init()
@@ -82,13 +79,16 @@ namespace AgileCoffeeShop
             coffeeShops = new List<CoffeeShop>();
             distancesDictionary = new Dictionary<string, double>();
         }
-
-        private static void CalculateDistances()
+        public static double CalculateDistance(Coordinate A, Coordinate B)
+        {
+            var distance = Math.Round(Math.Sqrt(Math.Pow((A.XCoordinate - B.XCoordinate), 2) + Math.Pow((A.YCoordinate - B.YCoordinate), 2)), 4);
+            return distance;
+        }
+        private static void CreateDistancesDictionary()
         {
             foreach (CoffeeShop coffeeShop in coffeeShops)
             {
-                double distance = 0;
-                distance = Math.Round(Math.Sqrt(Math.Pow((user.Coordinate.XCoordinate - coffeeShop.Coordinate.XCoordinate), 2) + Math.Pow((user.Coordinate.YCoordinate - coffeeShop.Coordinate.YCoordinate), 2)), 4);
+                var distance = CalculateDistance(user.Coordinate, coffeeShop.Coordinate);
                 distancesDictionary.Add(coffeeShop.Name, distance);                
             }
             distancesDictionary = distancesDictionary.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
@@ -119,8 +119,9 @@ namespace AgileCoffeeShop
             ValidateUrl(args[2]);
             urlFilePath = args[2];
             ReadDataFromUrlFile(urlFilePath);
-            CalculateDistances();
+            CreateDistancesDictionary();
             DisplayTheClosestCoffeeShops();
+
         }
     }
 }

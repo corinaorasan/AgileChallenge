@@ -4,17 +4,14 @@ namespace AgileCoffeeShop
 {
     public class Coordinate
     {
-        #region Members
         private double _xCoordinate;
         private double _yCoordinate;
-        #endregion
-
         public double XCoordinate
         {
             get
             {
                 return _xCoordinate;
-            }
+            } 
             set
             {
                 if(value >=-180 && value <= 180)

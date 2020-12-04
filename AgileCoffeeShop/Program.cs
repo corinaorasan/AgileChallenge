@@ -72,6 +72,7 @@ namespace AgileCoffeeShop
                 Console.ReadKey();
             }
         }
+
         private static void Init()
         {
             user = new User();
@@ -79,11 +80,13 @@ namespace AgileCoffeeShop
             coffeeShops = new List<CoffeeShop>();
             distancesDictionary = new Dictionary<string, double>();
         }
+
         public static double CalculateDistance(Coordinate A, Coordinate B)
         {
             var distance = Math.Round(Math.Sqrt(Math.Pow((A.XCoordinate - B.XCoordinate), 2) + Math.Pow((A.YCoordinate - B.YCoordinate), 2)), 4);
             return distance;
         }
+
         private static void CreateDistancesDictionary()
         {
             foreach (CoffeeShop coffeeShop in coffeeShops)

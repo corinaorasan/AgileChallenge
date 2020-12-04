@@ -5,7 +5,7 @@ namespace AgileCoffeeShop
     public class Coordinate
     {
         private double _xCoordinate;
-        private double _yCoordinate;
+        private double _yCoordinate; 
         public double XCoordinate
         {
             get

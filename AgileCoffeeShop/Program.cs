@@ -8,13 +8,13 @@ namespace AgileCoffeeShop
 {
     class Program
     {
-        #region Members
         private static User user;
         private static string urlFilePath;
         private static List<CoffeeShop> coffeeShops;
         private static Dictionary<string, double> distancesDictionary;
-        #endregion
-  
+        private const int XMAX = 180;
+        private const int YMAX = 90;
+       
         private static void ReadDataFromUrlFile(string urlFilePath)
         {
             WebClient client = new WebClient();
@@ -29,9 +29,9 @@ namespace AgileCoffeeShop
                     string[] splitLine = line.Split(',');
                     CoffeeShop coffeeShop = new CoffeeShop();
                     coffeeShop.Name = splitLine[0];
-                    ValidateCoordinate(splitLine[1]);
+                    ValidateCoordinate(splitLine[1], YMAX);
                     coffeeShop.Coordinate.YCoordinate = Convert.ToDouble(splitLine[1]);
-                    ValidateCoordinate(splitLine[2]);
+                    ValidateCoordinate(splitLine[2], XMAX);
                     coffeeShop.Coordinate.XCoordinate = Convert.ToDouble(splitLine[2]);
                     coffeeShops.Add(coffeeShop);
                 }
@@ -43,19 +43,34 @@ namespace AgileCoffeeShop
             }
         }
 
-        public static void ValidateCoordinate (string coordinate)
+        public static void ValidateCoordinate (string coordinate, int limitValue)
         {
             double temp = 0;
             try
             {
                 temp = Convert.ToDouble(coordinate);
+                if(!(temp>=-limitValue && temp <= limitValue))
+                {
+                    if (limitValue == XMAX)
+                    {
+                        Console.WriteLine("Invalid value for x coordinate. Program will exit.\nPress any key to continue...");
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid value for y coordinate. Program will exit.\nPress any key to continue...");
+                        Console.ReadKey();
+                    }
+                }
             }
             catch(Exception exception)
             {
                 Console.WriteLine("Invalid coordinates." + exception.Message + "Program will exit.\nPress any key to continue...");
                 Console.ReadKey();
             }
+
         }
+
         private static void ValidateUrl(string url) 
         {
             bool result = Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
@@ -118,9 +133,9 @@ namespace AgileCoffeeShop
         static void Main(string[] args)
         {
             Init();
-            ValidateCoordinate(args[0]);
+            ValidateCoordinate(args[0], XMAX);
             user.Coordinate.XCoordinate = Convert.ToDouble(args[0]);
-            ValidateCoordinate(args[1]);
+            ValidateCoordinate(args[1], YMAX);
             user.Coordinate.YCoordinate = Convert.ToDouble(args[1]);
             ValidateUrl(args[2]);
             urlFilePath = args[2];

@@ -11,7 +11,6 @@
         {
             Name = string.Empty;
             Coordinate = new Coordinate();
-            
         }
     }
 }

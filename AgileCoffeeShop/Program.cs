@@ -59,14 +59,14 @@ namespace AgileCoffeeShop
         private static void ValidateUrl(string url) 
         {
             bool result = Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-            if(result==true)
+            if(result)
             {
                 if(!url.Contains("raw.githubusercontent.com"))
                 {
                     result = false;
                 }
             }
-            if(result==false)
+            if(!result)
             {
                 Console.WriteLine("Invalid URL. Program will exit.\n Press any key to continue...");
                 Console.ReadKey();
@@ -83,7 +83,9 @@ namespace AgileCoffeeShop
 
         public static double CalculateDistance(Coordinate A, Coordinate B)
         {
-            var distance = Math.Round(Math.Sqrt(Math.Pow((A.XCoordinate - B.XCoordinate), 2) + Math.Pow((A.YCoordinate - B.YCoordinate), 2)), 4);
+            var x2 = (Math.Pow((A.XCoordinate - B.XCoordinate), 2));
+            var y2 = (Math.Pow((A.YCoordinate - B.YCoordinate), 2));
+            var distance = Math.Round(Math.Sqrt(x2 + y2), 4);
             return distance;
         }
 
@@ -100,10 +102,11 @@ namespace AgileCoffeeShop
         private static void DisplayTheClosestCoffeeShops()
         {
             int counter = 0;
+            const int SHOPS_TO_DISPLAY = 3;
 
             foreach (KeyValuePair<string, double> kvp in distancesDictionary)
             {
-                if (counter < 3)
+                if (counter < SHOPS_TO_DISPLAY)
                 {
                     Console.WriteLine(kvp.Key + "," + kvp.Value);                 
                     counter++;

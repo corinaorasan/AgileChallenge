@@ -5,7 +5,9 @@ namespace AgileCoffeeShop
     public class Coordinate
     {
         private double _xCoordinate;
-        private double _yCoordinate; 
+        private double _yCoordinate;
+        const int MAX = 180;
+        const int MIN = 90;
         public double XCoordinate
         {
             get
@@ -14,7 +16,7 @@ namespace AgileCoffeeShop
             } 
             set
             {
-                if(value >=-180 && value <= 180)
+                if(value >=-MAX && value <= MAX)
                 {
                     _xCoordinate = value;
                 }
@@ -35,7 +37,7 @@ namespace AgileCoffeeShop
             }
             set
             {
-                if (value >= -90 && value <= 90)
+                if (value >= -MIN && value <= MIN)
                 {
                     _yCoordinate = value;
                 }

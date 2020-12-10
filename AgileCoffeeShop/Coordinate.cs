@@ -4,22 +4,20 @@ namespace AgileCoffeeShop
 {
     public class Coordinate
     {
-        private double _xCoordinate;
-        private double _yCoordinate;
         public double XCoordinate
         {
-            get; set;
+            get; private set;
         }
 
         public double YCoordinate
         {
-            get; set;
+            get; private set;
         }    
 
-        public Coordinate ()
+        public Coordinate (double xCoordinate, double yCoordinate)
         {
-            XCoordinate = 0;
-            YCoordinate = 0;
+            XCoordinate = xCoordinate;
+            YCoordinate = yCoordinate;
         }
     }
 }

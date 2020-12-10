@@ -2,10 +2,10 @@
 {
     public class User
     {
-        public Coordinate Coordinate { get; set; }
-        public User()
+        public Coordinate Coordinate { get; private set; }
+        public User(Coordinate coordinate)
         {
-            Coordinate = new Coordinate(); 
+            Coordinate = coordinate;
         }
     }
 }

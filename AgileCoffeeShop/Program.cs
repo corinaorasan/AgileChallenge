@@ -27,12 +27,9 @@ namespace AgileCoffeeShop
                 while (!string.IsNullOrEmpty(line = reader.ReadLine()))
                 {
                     string[] splitLine = line.Split(',');
-                    CoffeeShop coffeeShop = new CoffeeShop();
-                    coffeeShop.Name = splitLine[0];
                     ValidateCoordinate(splitLine[1], YMAX);
-                    coffeeShop.Coordinate.YCoordinate = Convert.ToDouble(splitLine[1]);
                     ValidateCoordinate(splitLine[2], XMAX);
-                    coffeeShop.Coordinate.XCoordinate = Convert.ToDouble(splitLine[2]);
+                    CoffeeShop coffeeShop = new CoffeeShop(splitLine[0], new Coordinate(Convert.ToDouble(splitLine[2]), Convert.ToDouble(splitLine[1])));
                     coffeeShops.Add(coffeeShop);
                 }
             }
@@ -90,7 +87,6 @@ namespace AgileCoffeeShop
 
         private static void Init()
         {
-            user = new User();
             urlFilePath = string.Empty;
             coffeeShops = new List<CoffeeShop>();
             distancesDictionary = new Dictionary<string, double>();
@@ -134,15 +130,13 @@ namespace AgileCoffeeShop
         {
             Init();
             ValidateCoordinate(args[0], XMAX);
-            user.Coordinate.XCoordinate = Convert.ToDouble(args[0]);
             ValidateCoordinate(args[1], YMAX);
-            user.Coordinate.YCoordinate = Convert.ToDouble(args[1]);
+            user = new User(new Coordinate(Convert.ToDouble(args[0]), Convert.ToDouble(args[1])));
             ValidateUrl(args[2]);
             urlFilePath = args[2];
             ReadDataFromUrlFile(urlFilePath);
             CreateDistancesDictionary();
             DisplayTheClosestCoffeeShops();
-
         }
     }
 }

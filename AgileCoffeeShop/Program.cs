@@ -14,7 +14,8 @@ namespace AgileCoffeeShop
         private static Dictionary<string, double> distancesDictionary;
         private const int XMAX = 180;
         private const int YMAX = 90;
-       
+        const int SHOPS_TO_DISPLAY = 3;
+
         private static void ReadDataFromUrlFile(string urlFilePath)
         {
             WebClient client = new WebClient();
@@ -29,13 +30,14 @@ namespace AgileCoffeeShop
                     string[] splitLine = line.Split(',');
                     ValidateCoordinate(splitLine[1], YMAX);
                     ValidateCoordinate(splitLine[2], XMAX);
-                    CoffeeShop coffeeShop = new CoffeeShop(splitLine[0], new Coordinate(Convert.ToDouble(splitLine[2]), Convert.ToDouble(splitLine[1])));
+                    var csCoordinate = new Coordinate(Convert.ToDouble(splitLine[2]), Convert.ToDouble(splitLine[1]));
+                    var coffeeShop = new CoffeeShop(splitLine[0], csCoordinate);
                     coffeeShops.Add(coffeeShop);
                 }
             }
             catch(Exception exception)
             {
-                Console.WriteLine("Invalid URL." + exception.Message + "Program will exit.\n Press any key to continue...");
+                Console.WriteLine(Messages.InvalidURLException(exception.Message));
                 Console.ReadKey();
             }
         }
@@ -50,19 +52,19 @@ namespace AgileCoffeeShop
                 {
                     if (limitValue == XMAX)
                     {
-                        Console.WriteLine("Invalid value for x coordinate. Program will exit.\nPress any key to continue...");
+                        Console.WriteLine(Messages.InvalidCoordinateMessage("x"));
                         Console.ReadKey();
                     }
                     else
                     {
-                        Console.WriteLine("Invalid value for y coordinate. Program will exit.\nPress any key to continue...");
+                        Console.WriteLine(Messages.InvalidCoordinateMessage("y"));
                         Console.ReadKey();
                     }
                 }
             }
             catch(Exception exception)
             {
-                Console.WriteLine("Invalid coordinates." + exception.Message + "Program will exit.\nPress any key to continue...");
+                Console.WriteLine(Messages.InvalidCoordinatesException(exception.Message));
                 Console.ReadKey();
             }
 
@@ -71,16 +73,10 @@ namespace AgileCoffeeShop
         private static void ValidateUrl(string url) 
         {
             bool result = Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-            if(result)
-            {
-                if(!url.Contains("raw.githubusercontent.com"))
-                {
-                    result = false;
-                }
-            }
+           
             if(!result)
             {
-                Console.WriteLine("Invalid URL. Program will exit.\n Press any key to continue...");
+                Console.WriteLine(Messages.InvalidURLMessage);
                 Console.ReadKey();
             }
         }
@@ -113,8 +109,6 @@ namespace AgileCoffeeShop
         private static void DisplayTheClosestCoffeeShops()
         {
             int counter = 0;
-            const int SHOPS_TO_DISPLAY = 3;
-
             foreach (KeyValuePair<string, double> kvp in distancesDictionary)
             {
                 if (counter < SHOPS_TO_DISPLAY)
